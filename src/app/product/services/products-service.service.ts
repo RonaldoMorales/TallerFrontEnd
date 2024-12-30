@@ -52,5 +52,44 @@ export class ProductsServiceService {
     }
   }
 
+  async UpdateProduct(id: number,product: CreateProductDto, imageFile: File): Promise<string>{
+    try{
+      const formData = new FormData();
+      formData.append('id', id.toString());
+
+      formData.append('Nombre', product.nombre);
+      formData.append('Tipo', product.tipo);
+      formData.append('Precio', product.precio.toString());
+      formData.append('Stock', product.stock.toString());
+
+      formData.append('imageFile', imageFile, imageFile.name);
+
+      const response = await firstValueFrom(
+        this.http.put<string>(`${this.baseUrl}/AñadirProducto`, formData)
+      );
+      return Promise.resolve(response);
+
+    }catch (error){
+      console.log(error);
+      let e = error as HttpErrorResponse;
+      return Promise.reject(error);
+    }
+  }
+
+  async DeleteProduct(id: number): Promise<string>{
+    try{
+
+      const response = await firstValueFrom(
+        this.http.post<string>(`${this.baseUrl}/AñadirProducto`, id)
+      );
+      return Promise.resolve(response);
+
+    }catch (error){
+      console.log(error);
+      let e = error as HttpErrorResponse;
+      return Promise.reject(error);
+    }
+  }
+
   constructor() { }
 }
