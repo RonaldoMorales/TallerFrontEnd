@@ -3,7 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../jwt/auth.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -15,7 +15,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   loginError: string | null = null;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService,  private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -28,8 +28,12 @@ export class LoginComponent {
 
       this.authService.login(email, password).subscribe({
         next: (response) => {
+
+  
           console.log('Login exitoso:', response);
-          alert(`Bienvenido, ${response.nombre}`);
+          alert(`Bienvenido, ${response.nombre}`); 
+
+          this.router.navigate (['/principal']);
         },
         error: (err) => {
           console.error('Error en el login:', err);
