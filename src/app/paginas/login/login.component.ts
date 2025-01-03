@@ -1,29 +1,21 @@
 import { Component } from '@angular/core';
-
 import { ReactiveFormsModule } from '@angular/forms';
-
 import { NgIf } from '@angular/common';
-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-import { AuthService } from '../../user/auth.service';
-
-import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from '../../jwt/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf ],
+  imports: [ReactiveFormsModule, NgIf],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-
-
   loginForm: FormGroup;
   loginError: string | null = null;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private cookieService: CookieService) {
+  constructor(private fb: FormBuilder, private authService: AuthService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -37,8 +29,6 @@ export class LoginComponent {
       this.authService.login(email, password).subscribe({
         next: (response) => {
           console.log('Login exitoso:', response);
-          this.cookieService.set('token', response.token); // Guarda el token en una cookie
-          localStorage.setItem('token', response.token); // Guarda el token en localStorage
           alert(`Bienvenido, ${response.nombre}`);
         },
         error: (err) => {
