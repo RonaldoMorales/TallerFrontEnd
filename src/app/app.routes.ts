@@ -1,7 +1,10 @@
+// app.routes.ts
 import { Routes } from '@angular/router';
-import { LoginComponent } from './paginas/login/login.component'; // Import the LoginComponent
+import { LoginComponent } from './paginas/login/login.component';
+import { PrincipalComponent } from './paginas/principal/principal.component'; 
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirect root path to /login
-  { path: 'login', component: LoginComponent } // Route to LoginComponent
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'principal', component: PrincipalComponent } 
 ];

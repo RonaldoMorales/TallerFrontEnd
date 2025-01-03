@@ -1,1 +1,18 @@
-<p>principal works!</p>
+<!-- principal.component.html -->
+<h1>
+    {{ usuarioEstado === 'no-autenticado' ? 'No autenticado' : 
+       (usuarioEstado === 'cliente' ? 'Es cliente' : 'Es admin') }}
+  </h1>
+  
+  <!-- Aquí puedes añadir más contenido basado en usuarioEstado -->
+  <div *ngIf="usuarioEstado === 'no-autenticado'">
+    <!-- Contenido para no autenticados -->
+  </div>
+  
+  <div *ngIf="usuarioEstado === 'cliente'">
+    <!-- Contenido para clientes -->
+  </div>
+  
+  <div *ngIf="usuarioEstado === 'admin'">
+    <!-- Contenido para administradores -->
+  </div>
