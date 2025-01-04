@@ -16,16 +16,18 @@ export class PrincipalComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.authService.authStatus$.pipe(
+
+    this.determinarEstadoUsuario();
+    /*this.authService.authStatus$.pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => this.determinarEstadoUsuario());
-    this.determinarEstadoUsuario(); 
+    this.determinarEstadoUsuario(); */
   }
 
-  ngOnDestroy() {
+  /* ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-  }
+  } */
 
   determinarEstadoUsuario() {
     if (this.authService.isAuthenticated()) {
