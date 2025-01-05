@@ -1,9 +1,10 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Producto, ResponseAPIGetAll } from '../interfaces/ResponseAPI_GetAll';
 import { firstValueFrom } from 'rxjs';
 import { QueryObject } from '../../interfaces/QueryObject';
 import { CreateProductDto } from '../interfaces/CreateProductDto';
+import { AuthService } from '../../jwt/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ export class ProductsServiceService {
   private baseUrl: string = "http://localhost:5134/taller-backend/Product";
   public errors: string[] = []
   private http = inject(HttpClient);
+
+  constructor(private authService: AuthService) {}
 
   async GetAllProducts(queryObject: QueryObject): Promise<ResponseAPIGetAll>{
     try{
@@ -42,9 +45,24 @@ export class ProductsServiceService {
 
       formData.append('imageFile', imageFile, imageFile.name);
 
+
+      const token = this.authService.getToken();
+
+      if (!token) {
+          throw new Error('Token no encontrado');
+      }
+
       const response = await firstValueFrom(
-        this.http.post<string>(`${this.baseUrl}/AñadirProducto`, formData)
+          this.http.post<string>(`${this.baseUrl}/AñadirProducto`, formData, {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+              }
+          })
       );
+
+      console.log("token: ",token)
+
+
       return Promise.resolve(response);
 
     }catch (error){
@@ -99,5 +117,5 @@ export class ProductsServiceService {
     }
   }
 
-  constructor() { }
+
 }

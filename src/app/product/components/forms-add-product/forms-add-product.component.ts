@@ -30,8 +30,8 @@ export class FormsAddProductComponent implements OnInit {
     this.forms = this.FormBuilder.group({
       Nombre: ['', [Validators.required, Validators.minLength(3)]],
       Tipo: ['', [Validators.required]],
-      Precio: ['', [Validators.required, Validators.pattern('^[1-9]\d*$')]],
-      Stock: ['', [Validators.required , Validators.pattern('^[1-9]\d*$')]],
+      Precio: ['', [Validators.required, Validators.pattern('^[1-9][0-9]*$')]],
+      Stock: ['', [Validators.required , Validators.pattern('^[1-9][0-9]*$')]],
       imageFile: ['', [Validators.required ]],
     })
   }
