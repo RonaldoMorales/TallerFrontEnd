@@ -10,7 +10,7 @@ import { CreateProductDto } from '../interfaces/CreateProductDto';
 })
 export class ProductsServiceService {
 
-  private baseUrl: string = "http://localhost:5134/taller-backend/Product/";
+  private baseUrl: string = "http://localhost:5134/taller-backend/Product";
   public errors: string[] = []
   private http = inject(HttpClient);
 
