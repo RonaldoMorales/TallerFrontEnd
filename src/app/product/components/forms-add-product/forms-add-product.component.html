@@ -1,0 +1,80 @@
+
+<form class="max-w-sm mx-auto" [formGroup]="forms" (ngSubmit)="onSubmit()">
+  <div class="mb-5 ">
+    <label  class="block mb-2 text-2xl font-bold text-center text-gray-900 dark:text-white">Añadir nuevo producto</label>
+  </div>
+
+  <div class="mb-5">
+    <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
+    <input type="nombre" id="nombre" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+     required
+     formControlName="Nombre"/>
+
+     <div *ngIf="nombreInvalido">
+      <a class=" text-red-500 text-sm font-medium">Campo 'Nombre' requerido, con mínimo 3 caracteres.</a>
+     </div>
+  </div>
+  <div class="mb-5">
+    <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selecciona el tipo</label>
+    <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+    required
+    formControlName="Tipo">
+
+      <option>Poleras</option>
+      <option>Gorros</option>
+      <option>Juguetería</option>
+      <option>Alimentación</option>
+      <option>Libros</option>
+    </select>
+    <div *ngIf="tipoInvalido">
+      <a class=" text-red-500 text-sm font-medium">Seleccione un tipo</a>
+     </div>
+  </div>
+  <div class="mb-5">
+    <label for="precio" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio</label>
+    <input type="precio" id="precio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+    required
+    formControlName="Precio"/>
+    <div *ngIf="precioInvalido">
+      <a class=" text-red-500 text-sm font-medium">Campo "Precio" Requerido.</a>
+     </div>
+  </div>
+  <div class="mb-5">
+    <label for="stock" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Stock</label>
+    <input type="stock" id="stock" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+    required
+    formControlName="Stock"/>
+    <div *ngIf="stockInvalido">
+      <a class=" text-red-500 text-sm font-medium">Campo "Stock" Requerido.</a>
+     </div>
+  </div>
+  <!--para la subida de imagen-->
+  <div class="mb-5">
+    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="linkImagen">Subir imagen del producto</label>
+    <input
+      class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+      aria-describedby="linkImagen_help"
+      id="linkImagen"
+      type="file"
+      (change)="onFileSelected($event)"
+      required
+      formControlName="imageFile">
+    <div class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="linkImagen_help">Añade una imagen del producto</div>
+    <div *ngIf="imageFileInvalido">
+      <a class=" text-red-500 text-sm font-medium">Se Requeriere una imagen.</a>
+     </div>
+  </div>
+
+  <div class="mb-5">
+    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    >Enviar</button>
+  </div>
+
+</form>
+
+
+<div *ngIf="error">
+  <div *ngFor="let error of errorMessage" class="text-red-500 text-sm font-medium mb-5 flex justify-center items-center">
+    <a *ngIf="error" class="text-white text-sm font-medium">{{ error }}</a>
+  </div>
+</div>
