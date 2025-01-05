@@ -1,0 +1,57 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmitRegister()" class="register-form">
+    <div class="form-group">
+      <label for="rut">RUT</label>
+      <input id="rut" type="text" formControlName="rut" placeholder="Ingrese su RUT">
+      <small *ngIf="registerForm.get('rut')?.hasError('required') && registerForm.get('rut')?.touched">RUT es requerido.</small>
+      <small *ngIf="registerForm.get('rut')?.hasError('pattern')">Formato de RUT incorrecto.</small>
+    </div>
+  
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input id="nombre" type="text" formControlName="nombre" placeholder="Ingrese su nombre">
+      <small *ngIf="registerForm.get('nombre')?.hasError('required') && registerForm.get('nombre')?.touched">Nombre es requerido.</small>
+      <small *ngIf="registerForm.get('nombre')?.hasError('minlength')">El nombre debe tener al menos 8 caracteres.</small>
+      <small *ngIf="registerForm.get('nombre')?.hasError('maxlength')">El nombre no debe exceder los 255 caracteres.</small>
+      <small *ngIf="registerForm.get('nombre')?.hasError('pattern')">Solo se permiten caracteres del abecedario español.</small>
+    </div>
+  
+    <div class="form-group">
+      <label for="fechaNacimento">Fecha de Nacimiento</label>
+      <input id="fechaNacimento" type="date" formControlName="fechaNacimento">
+      <small *ngIf="registerForm.get('fechaNacimento')?.hasError('required') && registerForm.get('fechaNacimento')?.touched">Fecha de nacimiento es requerida.</small>
+    </div>
+  
+    <div class="form-group">
+      <label for="correo">Correo Electrónico</label>
+      <input id="correo" type="email" formControlName="correo" placeholder="Ingrese su correo electrónico">
+      <small *ngIf="registerForm.get('correo')?.hasError('required') && registerForm.get('correo')?.touched">Correo es requerido.</small>
+      <small *ngIf="registerForm.get('correo')?.hasError('email')">Correo no válido.</small>
+    </div>
+  
+    <div class="form-group">
+      <label for="genero">Género</label>
+      <select id="genero" formControlName="genero">
+        <option value="Masculino">Masculino</option>
+        <option value="Femenino">Femenino</option>
+        <option value="Otro">Otro</option>
+        <option value="Prefiero no decirlo">Prefiero no decirlo</option>
+      </select>
+      <small *ngIf="registerForm.get('genero')?.hasError('required') && registerForm.get('genero')?.touched">Género es requerido.</small>
+    </div>
+  
+    <div class="form-group">
+      <label for="contraseña">Contraseña</label>
+      <input id="contraseña" type="password" formControlName="contraseña" placeholder="Ingrese su contraseña">
+      <small *ngIf="registerForm.get('contraseña')?.hasError('required') && registerForm.get('contraseña')?.touched">Contraseña es requerida.</small>
+      <small *ngIf="registerForm.get('contraseña')?.hasError('minlength')">La contraseña debe tener al menos 8 caracteres.</small>
+      <small *ngIf="registerForm.get('contraseña')?.hasError('maxlength')">La contraseña no debe exceder los 20 caracteres.</small>
+    </div>
+  
+    <div class="form-group">
+      <label for="contraseñaRepetida">Repita Contraseña</label>
+      <input id="contraseñaRepetida" type="password" formControlName="contraseñaRepetida" placeholder="Repita su contraseña">
+      <small *ngIf="registerForm.get('contraseñaRepetida')?.hasError('required') && registerForm.get('contraseñaRepetida')?.touched">Repita la contraseña.</small>
+    </div>
+  
+    <button type="submit" [disabled]="!registerForm.valid" class="btn btn-primary">Registrar</button>
+  </form>

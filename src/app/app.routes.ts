@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './paginas/login/login.component';
 import { AuthGuard } from './security/guard/auth.guard';
 import { Error404Component } from './paginas/error404/error404.component';
+import { RegistrarUsuarioComponent } from './paginas/registrar-usuario/registrar-usuario.component';
 
 export const routes: Routes = [
   {
@@ -22,6 +23,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     loadComponent: () => import('./paginas/principal/principal.component').then(m => m.PrincipalComponent)
   },
+  { path: 'registrar-usuario', component: RegistrarUsuarioComponent },
   { path: '404', component: Error404Component},
   { path: '**', redirectTo: '/404' } // Esta ruta captura cualquier URL no definida y redirige a 404
 ];

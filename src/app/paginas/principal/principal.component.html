@@ -1,20 +1,27 @@
-
 <div class="container">
   <div class="sidebar" *ngIf="usuarioEstado !== 'no-autenticado'">
     <h2>{{ usuarioEstado === 'cliente' ? 'Querido Cliente, ¿qué desea hacer?' : 'Panel de Administrador' }}</h2>
     <ul>
-      <li><a routerLink="/editar-perfil">Editar Perfil</a></li>
-      <li><a routerLink="/cambiar-contrasena">Cambiar Contraseña</a></li>
+      <li><a (click)="editarPerfil()">Editar Perfil</a></li>
+      <li><a (click)="cambiarContrasenia()">Cambiar Contraseña</a></li>
       <li><a (click)="logout()">Cerrar Sesión</a></li>
-      <li><a routerLink="/productos">Ver Productos</a></li>
+      <!-- Cambiamos a usar href en lugar de routerLink -->
+      <li>
+        <a href="home" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Ver Productos</a>
+      </li>
       <!-- Las opciones específicas del admin solo se muestran si el usuario es admin -->
       <ng-container *ngIf="usuarioEstado === 'admin'">
+        <li><a routerLink="/admin/visualizar-cliente">visualizar Clientes</a></li>
         <li><a routerLink="/admin/agregar-producto">Agregar Producto</a></li>
         <li><a routerLink="/admin/eliminar-producto">Eliminar Producto</a></li>
         <li><a routerLink="/admin/actualizar-producto">Actualizar Producto</a></li>
-        <li><a routerLink="/admin/visualizar-clientes">Visualizar Clientes</a></li>
         <li><a routerLink="/admin/gestionar-clientes">Habilitar/Deshabilitar Clientes</a></li>
       </ng-container>
     </ul>
+  </div>
+
+  <!-- Añadimos el componente de edición de usuario aquí -->
+  <div *ngIf="mostrarEditarUsuario" class="modal-overlay">
+    <app-editar-usuario (cerrar)="cerrarEditarUsuario()"></app-editar-usuario>
   </div>
 </div>
