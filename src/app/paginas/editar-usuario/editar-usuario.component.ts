@@ -5,6 +5,11 @@ import { EditProfileDTO } from '../../Client/interfaces/EditProfileDTO';
 import { CambiarContraseniaDto } from '../../Client/interfaces/CambiarContraseniaDTO';
 import { NgIf } from '@angular/common';
 
+/**
+ * Componente para editar el perfil del usuario o cambiar su contraseña.
+ * Este componente permite al usuario modificar su información personal o su contraseña,
+ * dependiendo del modo seleccionado (perfil o contraseña).
+ */
 @Component({
   selector: 'app-editar-usuario',
   standalone: true,
@@ -13,37 +18,61 @@ import { NgIf } from '@angular/common';
   styleUrl: './editar-usuario.component.css'
 })
 export class EditarUsuarioComponent implements OnInit {
+  /**
+   * Define el modo de edición, puede ser 'perfil' para editar el perfil o 'contrasenia' para cambiar la contraseña.
+   */
   editMode: 'perfil' | 'contrasenia' = 'perfil';
-   // Inicializa las propiedades en el constructor
-   editProfileForm: FormGroup;
-   changePasswordForm: FormGroup;
 
-   @Output() cerrar = new EventEmitter<void>();
+  /**
+   * Formulario reactivo para editar el perfil del usuario.
+   */
+  editProfileForm: FormGroup;
 
-  // Método para cerrar el componente
+  /**
+   * Formulario reactivo para cambiar la contraseña del usuario.
+   */
+  changePasswordForm: FormGroup;
+
+  /**
+   * Evento que se emite cuando se desea cerrar el componente.
+   */
+  @Output() cerrar = new EventEmitter<void>();
+
+
   onClose(): void {
     this.cerrar.emit();
   }
 
- 
-   constructor(private fb: FormBuilder, private clientService: ClientService) {
-     this.editProfileForm = this.fb.group({
-       nombre: ['', Validators.required],
-       fechaNacimento: ['', Validators.required],
-       genero: ['', Validators.required]
-     });
-     this.changePasswordForm = this.fb.group({
-       contraseñaActual: ['', Validators.required],
-       nuevaContrasenia: ['', [Validators.required, Validators.minLength(6)]],
-       confirmarNuevaContrasenia: ['', Validators.required]
-     }, { validator: this.checkPasswords });
-   }
+  /**
+   * Constructor del componente, inicializa los formularios reactivos.
+   * @param fb Instancia de FormBuilder para la creación de formularios reactivos.
+   * @param clientService Instancia de ClientService para realizar operaciones relacionadas con el cliente.
+   */
+  constructor(private fb: FormBuilder, private clientService: ClientService) {
+    this.editProfileForm = this.fb.group({
+      nombre: ['', Validators.required],
+      fechaNacimento: ['', Validators.required],
+      genero: ['', Validators.required]
+    });
+    this.changePasswordForm = this.fb.group({
+      contraseñaActual: ['', Validators.required],
+      nuevaContrasenia: ['', [Validators.required, Validators.minLength(6)]],
+      confirmarNuevaContrasenia: ['', Validators.required]
+    }, { validator: this.checkPasswords });
+  }
 
+  /**
+   * Método de ciclo de vida de Angular que se ejecuta al inicializar el componente.
+   * Inicializa los formularios de edición de perfil y cambio de contraseña.
+   */
   ngOnInit(): void {
     this.initEditProfileForm();
     this.initChangePasswordForm();
   }
 
+  /**
+   * Inicializa el formulario de edición de perfil con los validadores necesarios.
+   */
   initEditProfileForm(): void {
     this.editProfileForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -52,6 +81,9 @@ export class EditarUsuarioComponent implements OnInit {
     });
   }
 
+  /**
+   * Inicializa el formulario de cambio de contraseña con los validadores necesarios.
+   */
   initChangePasswordForm(): void {
     this.changePasswordForm = this.fb.group({
       contraseñaActual: ['', Validators.required],
@@ -60,6 +92,11 @@ export class EditarUsuarioComponent implements OnInit {
     }, { validator: this.checkPasswords });
   }
 
+  /**
+   * Validador personalizado para asegurar que las nuevas contraseñas coincidan.
+   * @param group FormGroup que contiene los campos de contraseña.
+   * @returns null si las contraseñas coinciden, o un objeto con la propiedad 'notSame' si no coinciden.
+   */
   checkPasswords(group: FormGroup) {
     let pass = group.get('nuevaContrasenia')?.value;
     let confirmPass = group.get('confirmarNuevaContrasenia')?.value;
@@ -120,7 +157,7 @@ export class EditarUsuarioComponent implements OnInit {
   
       this.clientService.cambiarContrasenia(cambiarContraseniaDto).subscribe({
         next: (response) => {
-          // Aquí asumo que 'response' es un objeto o cadena simple que indica éxito
+          
           if (response && (response.message || response === 'Contrasenia actualizada correctamente.')) { 
             alert('Contraseña actualizada exitosamente');
           } else {
@@ -133,7 +170,7 @@ export class EditarUsuarioComponent implements OnInit {
         }
       });
     } else {
-      // Manejo de errores de validación del formulario
+      
       console.error('El formulario no es válido');
     }
   }
