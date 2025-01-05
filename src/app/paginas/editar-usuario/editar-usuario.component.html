@@ -1,0 +1,88 @@
+<div class="editar-usuario-container">
+    <h2>Editar Usuario</h2>
+    
+    <!-- Sección para Editar Perfil -->
+    <div *ngIf="editMode === 'perfil'">
+      <h3>Editar Perfil</h3>
+      <form [formGroup]="editProfileForm" (ngSubmit)="onSubmitEditProfile()" class="form-container">
+        <div class="form-group">
+          <label for="nombre">Nombre:</label>
+          <input id="nombre" type="text" formControlName="nombre" class="form-control" required>
+          <div *ngIf="editProfileForm.get('nombre')?.hasError('required') && editProfileForm.get('nombre')?.touched" class="error">
+            El nombre es requerido.
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="fechaNacimento">Fecha de Nacimiento:</label>
+          <input id="fechaNacimento" type="date" formControlName="fechaNacimento" class="form-control" required>
+          <div *ngIf="editProfileForm.get('fechaNacimento')?.hasError('required') && editProfileForm.get('fechaNacimento')?.touched" class="error">
+            La fecha de nacimiento es requerida.
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="genero">Género:</label>
+          <select id="genero" formControlName="genero" class="form-control" required>
+            <option value="">Selecciona un género</option>
+            <option value="masculino">Masculino</option>
+            <option value="femenino">Femenino</option>
+            <option value="otro">Otro</option>
+            <option value="prefiero no decirlo">Prefiero no decirlo</option>
+          </select>
+          <div *ngIf="editProfileForm.get('genero')?.hasError('required') && editProfileForm.get('genero')?.touched" class="error">
+            Debes seleccionar un género.
+          </div>
+        </div>
+  
+        <button type="submit" [disabled]="!editProfileForm.valid" class="btn btn-primary">Guardar Cambios</button>
+      </form>
+    </div>
+  
+    <!-- Sección para Cambiar Contraseña -->
+    <div *ngIf="editMode === 'contrasenia'">
+      <h3>Cambiar Contraseña</h3>
+      <form [formGroup]="changePasswordForm" (ngSubmit)="onSubmitChangePassword()" class="form-container">
+        <div class="form-group">
+          <label for="contraseñaActual">Contraseña Actual:</label>
+          <input id="contraseñaActual" type="password" formControlName="contraseñaActual" class="form-control" required>
+          <div *ngIf="changePasswordForm.get('contraseñaActual')?.hasError('required') && changePasswordForm.get('contraseñaActual')?.touched" class="error">
+            La contraseña actual es requerida.
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="nuevaContrasenia">Nueva Contraseña:</label>
+          <input id="nuevaContrasenia" type="password" formControlName="nuevaContrasenia" class="form-control" required>
+          <div *ngIf="changePasswordForm.get('nuevaContrasenia')?.hasError('required') && changePasswordForm.get('nuevaContrasenia')?.touched" class="error">
+            La nueva contraseña es requerida.
+          </div>
+          <div *ngIf="changePasswordForm.get('nuevaContrasenia')?.hasError('minlength') && changePasswordForm.get('nuevaContrasenia')?.touched" class="error">
+            La nueva contraseña debe tener al menos 6 caracteres.
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="confirmarNuevaContrasenia">Confirmar Nueva Contraseña:</label>
+          <input id="confirmarNuevaContrasenia" type="password" formControlName="confirmarNuevaContrasenia" class="form-control" required>
+          <div *ngIf="changePasswordForm.get('confirmarNuevaContrasenia')?.hasError('required') && changePasswordForm.get('confirmarNuevaContrasenia')?.touched" class="error">
+            Debes confirmar la nueva contraseña.
+          </div>
+          <div *ngIf="changePasswordForm.hasError('notSame')" class="error">
+            Las contraseñas no coinciden.
+          </div>
+        </div>
+  
+        <button type="submit" [disabled]="!changePasswordForm.valid" class="btn btn-primary">Cambiar Contraseña</button>
+      </form>
+    </div>
+  
+    <!-- Botones para cambiar entre modos -->
+    <div class="mode-buttons">
+      <button (click)="setEditMode('perfil')" [class.active]="editMode === 'perfil'">Editar Perfil</button>
+      <button (click)="setEditMode('contrasenia')" [class.active]="editMode === 'contrasenia'">Cambiar Contraseña</button>
+    </div>
+  
+    <!-- Botón para cerrar el componente -->
+    <button (click)="onClose()" class="btn btn-secondary">Cerrar</button>
+  </div>

@@ -93,7 +93,7 @@ export class AuthService {
   }
 
   // Método para agregar el token a los headers de las solicitudes protegidas
-  private addTokenToHeaders(): HttpHeaders {
+  addTokenToHeaders(): HttpHeaders {
     const token = this.getToken();
     if (token) {
       return this.headers.set('Authorization', `Bearer ${token}`);
