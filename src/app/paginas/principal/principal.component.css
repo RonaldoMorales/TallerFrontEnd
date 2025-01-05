@@ -1,0 +1,65 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Alinea todos los hijos del contenedor a la derecha */
+  }
+  
+  
+  .main-title {
+    width: 100%; /* Asegura que el título ocupe todo el ancho del contenedor */
+    text-align: right; /* Alinea el texto dentro del título a la derecha */
+  }
+  .sidebar {
+    width: 200px; /* Ajusta según el ancho deseado */
+    height: 100vh; /* Altura total de la ventana */
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    padding: 20px;
+    background-color: #f8f9fa; /* Fondo de la barra lateral */
+  }
+  
+  .sidebar h2 {
+    background-color: #003366; /* Azul oscuro */
+    color: white; /* Texto blanco para contraste */
+    padding: 15px; /* Espacio alrededor del texto */
+    text-align: center; /* Centrar el texto */
+    margin-bottom: 20px; /* Espacio entre el título y la lista */
+  }
+  
+  /* Línea divisoria */
+  .sidebar h2::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px; /* Ancho de la línea */
+    background-color: white; /* Color de la línea */
+    margin-top: 10px; /* Espacio entre el texto y la línea */
+  }
+  
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    background-color: #e9ecef; /* Fondo un poco más claro para las opciones */
+    border-radius: 5px; /* Bordes redondeados para el bloque de opciones */
+  }
+  
+  .sidebar ul li {
+    padding: 15px 20px; /* Aumentar el padding para mejor separación */
+  }
+  
+  .sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+  }
+  
+  .sidebar ul li a:hover {
+    background-color: #d7d7d7; /* Cambio de color al pasar el mouse */
+  }
+  
+  .content {
+    margin-left: 200px; /* Debe coincidir con el ancho de la barra lateral */
+    padding: 20px;
+  }

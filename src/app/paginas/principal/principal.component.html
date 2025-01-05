@@ -1,1 +1,20 @@
-<p>principal works!</p>
+
+<div class="container">
+  <div class="sidebar" *ngIf="usuarioEstado !== 'no-autenticado'">
+    <h2>{{ usuarioEstado === 'cliente' ? 'Querido Cliente, ¿qué desea hacer?' : 'Panel de Administrador' }}</h2>
+    <ul>
+      <li><a routerLink="/editar-perfil">Editar Perfil</a></li>
+      <li><a routerLink="/cambiar-contrasena">Cambiar Contraseña</a></li>
+      <li><a (click)="logout()">Cerrar Sesión</a></li>
+      <li><a routerLink="/productos">Ver Productos</a></li>
+      <!-- Las opciones específicas del admin solo se muestran si el usuario es admin -->
+      <ng-container *ngIf="usuarioEstado === 'admin'">
+        <li><a routerLink="/admin/agregar-producto">Agregar Producto</a></li>
+        <li><a routerLink="/admin/eliminar-producto">Eliminar Producto</a></li>
+        <li><a routerLink="/admin/actualizar-producto">Actualizar Producto</a></li>
+        <li><a routerLink="/admin/visualizar-clientes">Visualizar Clientes</a></li>
+        <li><a routerLink="/admin/gestionar-clientes">Habilitar/Deshabilitar Clientes</a></li>
+      </ng-container>
+    </ul>
+  </div>
+</div>

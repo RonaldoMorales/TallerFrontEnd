@@ -3,9 +3,11 @@ import { OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { initFlowbite } from 'flowbite';
 
+import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
+  imports: [RouterOutlet],
   standalone: true,
   imports: [RouterOutlet],
   styleUrls: ['./app.component.css']
