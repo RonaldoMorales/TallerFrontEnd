@@ -23,8 +23,10 @@ export class ProductsServiceService {
       return Promise.resolve(response);
 
     } catch (error){
-      console.log(error);
+      console.log('Error en GetAllProducts',error);
       let e = error as HttpErrorResponse;
+      this.errors.push(e.message)
+
       return Promise.reject(error);
     }
   }
@@ -46,8 +48,14 @@ export class ProductsServiceService {
       return Promise.resolve(response);
 
     }catch (error){
-      console.log(error);
-      let e = error as HttpErrorResponse;
+      console.log('Error en CreateProduct',error);
+      if(error instanceof HttpErrorResponse){
+        const errorMessage =
+          typeof error.error === 'string' ? error.error : error.message;
+        this.errors.push(errorMessage);
+      }
+
+
       return Promise.reject(error);
     }
   }
