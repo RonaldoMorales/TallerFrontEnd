@@ -24,10 +24,24 @@ export class PrincipalComponent implements OnInit {
     this.determinarEstadoUsuario(); */
   }
 
-  /* ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  } */
+  
+  logout(): void {
+    this.authService.logout();
+  }
+  editarPerfil(): void {
+    console.log('Funcionalidad de Editar Perfil no implementada aún.');
+    alert('Funcionalidad de Editar Perfil no implementada aún.');
+  }
+
+  cambiarContrasenia(): void {
+    console.log('Funcionalidad de Cambiar Contraseña no implementada aún.');
+    alert('Funcionalidad de Cambiar Contraseña no implementada aún.');
+  }
+
+  verProductos(): void {
+    console.log('Funcionalidad de Ver Productos no implementada aún.');
+    alert('Funcionalidad de Ver Productos no implementada aún.');
+  }
 
   determinarEstadoUsuario() {
     if (this.authService.isAuthenticated()) {

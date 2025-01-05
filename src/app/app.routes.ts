@@ -1,7 +1,7 @@
 // app.routes.ts
 import { Routes } from '@angular/router';
 import { LoginComponent } from './paginas/login/login.component';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from './security/guard/auth.guard';
 import { Error404Component } from './paginas/error404/error404.component';
 
 export const routes: Routes = [

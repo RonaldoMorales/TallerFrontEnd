@@ -1,25 +1,31 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5134/taller-backend/Auth'; // Reemplaza con tu URL base
+  private apiUrl = 'http://localhost:5134/taller-backend/Auth'; 
   private headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-  private authStatus = new BehaviorSubject<boolean>(false); // Inicializa con un valor
+  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  isLoggedIn$ = this.isLoggedInSubject.asObservable();
+  private authStatus = new BehaviorSubject<boolean>(false); // BehaviorSubject para almacenar el estado de autenticación
   authStatus$ = this.authStatus.asObservable();
 
-  constructor(private http: HttpClient, private cookieService: CookieService) {}
+
+
+  constructor(private httpClient: HttpClient,
+     private cookieService: CookieService,
+      private router: Router) {}
 
   // Método para realizar el login y obtener el JWT
   login(email: string, password: string): Observable<{ token: string; nombre: string; rut: string; correo: string }> {
     const body = { correo: email, contraseña: password };
-    return this.http.post<{ token: string; nombre: string; rut: string; correo: string }>(
+    return this.httpClient.post<{ token: string; nombre: string; rut: string; correo: string }>(
       `${this.apiUrl}/login`,
       body,
       { headers: this.headers }
@@ -27,12 +33,13 @@ export class AuthService {
       map((response) => {
         this.saveToken(response.token); // Guarda el token después de recibirlo
         this.authStatus.next(true);
+        this.isLoggedInSubject.next(true);
         return response; // Devuelve la respuesta completa
       })
     );
   }
 
-  // Otros métodos relacionados con el JWT
+  
 
   // Método para guardar el token en una cookie
   saveToken(token: string) {
@@ -47,11 +54,25 @@ export class AuthService {
   // Método para eliminar el token (logout)
   logout() {
     this.cookieService.delete('token', '/');
+    this.httpClient.post('http://localhost:5134/taller-backend/auth/logout', {}).subscribe(() => {
+      // Manejar la respuesta exitosa
+      this.router.navigate(['/login']);
+      this.showLogoutNotification();
+      this.isLoggedInSubject.next(false);
+      
+    }, (error: any) => {
+      // Manejar errores, si es necesario
+      console.error('Error al cerrar sesión:', error);
+    });
+
+  }
+  showLogoutNotification(): void {
+    alert('Sesión cerrada correctamente.');
   }
 
   // Método para verificar si el usuario está autenticado
   isAuthenticated(): boolean {
-    return this.authStatus.getValue();
+    return this.isLoggedInSubject.value;
   }
 
   isAdmin(): boolean {
@@ -82,7 +103,7 @@ export class AuthService {
 
   // Ejemplo de uso para una solicitud que requiere autenticación
   protectedRequest(endpoint: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${endpoint}`, {
+    return this.httpClient.get<any>(`${this.apiUrl}/${endpoint}`, {
       headers: this.addTokenToHeaders()
     });
   }
