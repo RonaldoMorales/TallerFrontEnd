@@ -5,10 +5,15 @@ import { AuthGuard } from './security/guard/auth.guard';
 import { Error404Component } from './paginas/error404/error404.component';
 
 export const routes: Routes = [
+  {
+    path: 'home',
+    pathMatch: 'full',
+    loadComponent: () => import('./product/pages/home/home.component').then(m => m.HomeComponent)
+  },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { 
-    path: 'principal', 
+  {
+    path: 'principal',
     canActivate: [AuthGuard],
     loadComponent: () => import('./paginas/principal/principal.component').then(m => m.PrincipalComponent)
   },
