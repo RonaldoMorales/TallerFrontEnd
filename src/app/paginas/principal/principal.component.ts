@@ -3,17 +3,21 @@ import { AuthService } from '../../jwt/auth.service';
 import { NgIf } from '@angular/common';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { EditarUsuarioComponent } from '../editar-usuario/editar-usuario.component';
+
 @Component({
   selector: 'app-principal',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, EditarUsuarioComponent],
   templateUrl: './principal.component.html',
   styleUrl: './principal.component.css'
 })
 export class PrincipalComponent implements OnInit {
   usuarioEstado: 'no-autenticado' | 'cliente' | 'admin' = 'no-autenticado';
   private destroy$ = new Subject<void>();
+  mostrarEditarUsuario = false;
   constructor(private authService: AuthService) {}
+  mostrarClientes = false;
 
   ngOnInit() {
 
@@ -28,14 +32,19 @@ export class PrincipalComponent implements OnInit {
   logout(): void {
     this.authService.logout();
   }
-  editarPerfil(): void {
-    console.log('Funcionalidad de Editar Perfil no implementada aún.');
-    alert('Funcionalidad de Editar Perfil no implementada aún.');
+
+   editarPerfil(): void {
+    this.mostrarEditarUsuario = true;
+  }
+
+  // Método para cerrar el componente de edición de usuario
+  cerrarEditarUsuario(): void {
+    this.mostrarEditarUsuario = false;
   }
 
   cambiarContrasenia(): void {
-    console.log('Funcionalidad de Cambiar Contraseña no implementada aún.');
-    alert('Funcionalidad de Cambiar Contraseña no implementada aún.');
+    this.mostrarEditarUsuario = true;
+    // Aquí podrías setear el modo de edición a 'contrasenia' si tu componente lo soporta
   }
 
   verProductos(): void {
@@ -64,4 +73,6 @@ export class PrincipalComponent implements OnInit {
       this.usuarioEstado = 'no-autenticado';
     }
   }
+
+  
 }

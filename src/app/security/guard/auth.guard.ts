@@ -1,7 +1,7 @@
 // auth.guard.ts
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { AuthService } from '../../jwt/auth.service'; // Ajusta la ruta según tu estructura
+import { AuthService } from '../../jwt/auth.service'; 
 
 @Injectable({
   providedIn: 'root'
