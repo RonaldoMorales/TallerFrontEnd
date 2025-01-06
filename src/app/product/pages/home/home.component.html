@@ -5,5 +5,10 @@
     <product-card [produtc]="product"></product-card>
   </div>
 
+  <shared-paginacion
+  [currentPage]="query.numeroPagina ?? 1"
+  [totalPages]="cantPaginas"
+  (pageChanged)="onPageChanged($event)"></shared-paginacion>
+
 </div>
 

@@ -16,6 +16,11 @@ export const routes: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('./product/pages/add-product/add-product.component').then(m => m.AddProductComponent)
   },
+  {
+    path: 'verCarro',
+    pathMatch: 'full',
+    loadComponent: () => import('./sale/pages/ver-carro/ver-carro.component').then(m => m.VerCarroComponent)
+  },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   {
