@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { SaleProduct } from '../../interfaces/ResponseApi_GetOnlySaleUser';
 
+//**
+// Componente para representar la tarjeta de un producto dentro de una venta.
+//**
 @Component({
   selector: 'sale-card',
   standalone: true,
@@ -10,6 +13,7 @@ import { SaleProduct } from '../../interfaces/ResponseApi_GetOnlySaleUser';
 })
 export class CardComponent {
 
+  //** Propiedad de entrada para recibir un producto de tipo SaleProduct. */
   @Input() produtc: SaleProduct;
 
   constructor() {

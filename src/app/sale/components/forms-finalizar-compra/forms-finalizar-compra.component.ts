@@ -4,6 +4,10 @@ import { SalesService } from '../../services/sales.service';
 import { CommonModule } from '@angular/common';
 import { ConfirmSaleDto } from '../../interfaces/ConfirmSaleDto';
 
+//**
+// Componente para el formulario de finalizar compra en la venta. Permite ingresar
+// los datos de dirección para confirmar la compra.
+//**
 @Component({
   selector: 'sale-forms-finalizar-compra',
   standalone: true,
@@ -13,19 +17,25 @@ import { ConfirmSaleDto } from '../../interfaces/ConfirmSaleDto';
 })
 export class FormsFinalizarCompraComponent implements OnInit {
 
+   //** Formulario reactivo para manejar los datos de la compra. */
   forms!: FormGroup;
 
+  //** Propiedad que indica si ocurrió un error en el proceso. */
   error: boolean = false;
+  //** Propiedad que contiene los mensajes de error. */
   errorMessage: string[] = [];
 
+  //** Servicio de ventas para manejar las acciones relacionadas con la compra. */
   private saleService: SalesService = inject(SalesService)
 
 
   constructor(private FormBuilder: FormBuilder){}
 
+  //** Inicializa el formulario al cargar el componente. */
   ngOnInit() {
     this.createForm();
   }
+  //** Método para crear el formulario reactivo con sus validaciones. */
   createForm(){
     this.forms = this.FormBuilder.group({
       Pais: ['', [Validators.required]],
@@ -38,6 +48,7 @@ export class FormsFinalizarCompraComponent implements OnInit {
 
 
 
+  //** Método para manejar el envío del formulario. Realiza la confirmación de la venta. */
   async onSubmit(){
     console.log(this.forms.value)
 
@@ -85,19 +96,22 @@ export class FormsFinalizarCompraComponent implements OnInit {
 
   }
 
+   //** Verifica si el campo 'Pais' es inválido y ha sido tocado por el usuario. */
   get paisInvalido(){
     return this.forms.get('Pais')?.invalid && this.forms.get('Pais')?.touched;
   }
 
 
-
+  //** Verifica si el campo 'Cuidad' es inválido y ha sido tocado por el usuario. */
   get cuidadInvalido(){
     return this.forms.get('Cuidad')?.invalid && this.forms.get('Cuidad')?.touched;
   }
+  //** Verifica si el campo 'Comuna' es inválido y ha sido tocado por el usuario. */
   get comunaInvalido(){
     return this.forms.get('Comuna')?.invalid && this.forms.get('Comuna')?.touched;
   }
 
+  //** Verifica si el campo 'Calle' es inválido y ha sido tocado por el usuario. */
   get calleInvalido(){
     return this.forms.get('Calle')?.invalid && this.forms.get('Calle')?.touched;
   }

@@ -6,17 +6,22 @@ import { QueryObject } from '../../interfaces/QueryObject';
 import { CreateProductDto } from '../interfaces/CreateProductDto';
 import { AuthService } from '../../jwt/auth.service';
 
+//** Servicio que maneja las operaciones relacionadas con los productos (crear, obtener, actualizar, eliminar). */
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsServiceService {
 
+  //** sting que reprensenta la url del service */
   private baseUrl: string = "http://localhost:5134/taller-backend/Product";
+  //** Arreglo para almacenar mensajes de error. */
   public errors: string[] = []
+  //** Inyección del servicio HttpClient para realizar las peticiones HTTP. */
   private http = inject(HttpClient);
 
   constructor(private authService: AuthService) {}
 
+  //** Método para obtener todos los productos, aplicando parámetros de consulta. */
   async GetAllProducts(queryObject: QueryObject): Promise<ResponseAPIGetAll>{
     try{
       const params = new HttpParams({ fromObject: { ...queryObject } });
@@ -34,6 +39,7 @@ export class ProductsServiceService {
     }
   }
 
+  //** Método para crear un producto, enviando los datos y una imagen asociada. */
   async CreateProduct(product: CreateProductDto, imageFile: File): Promise<string>{
     try{
       const formData = new FormData();
@@ -78,6 +84,7 @@ export class ProductsServiceService {
     }
   }
 
+  //** Método para actualizar un producto, enviando su ID, datos y una imagen. */
   async UpdateProduct(id: number,product: CreateProductDto, imageFile: File): Promise<string>{
     try{
       const formData = new FormData();
@@ -102,6 +109,7 @@ export class ProductsServiceService {
     }
   }
 
+   //** Método para eliminar un producto, enviando su ID. */
   async DeleteProduct(id: number): Promise<string>{
     try{
 

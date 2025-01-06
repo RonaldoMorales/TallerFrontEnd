@@ -3,7 +3,10 @@ import { Producto } from '../../interfaces/ResponseAPI_GetAll';
 
 import { SalesService } from '../../../sale/services/sales.service';
 import { AddProductDto } from '../../../sale/interfaces/AddProductoDto';
-
+//**
+// * Componente que representa una tarje de producto
+// * en la aplicación. Permite visualizar, aumentar la cantidad de producto
+// * y añadir al carro. */
 @Component({
   selector: 'product-card',
   standalone: true,
@@ -13,11 +16,17 @@ import { AddProductDto } from '../../../sale/interfaces/AddProductoDto';
   styleUrl: './card.component.css'
 })
 export class CardComponent {
-
+//**
+// Inyección del servicio SalesService para su uso dentro del componente. */
   private saleService: SalesService = inject(SalesService)
+  //**
+  // Propiedad de entrada para recibir un producto de tipo Producto. */
   @Input() produtc: Producto
-  contador: number = 0; // Variable para el número
-
+//**
+// Variable para llevar el conteo de productos. */
+  contador: number = 0;
+ //**
+ //  Constructor del componente, inicializa el producto con valores por defecto. */
   constructor(){
     this.produtc = {
       id:         0,
@@ -29,15 +38,18 @@ export class CardComponent {
 
     }
   }
-
+  //**
+  // Método para incrementar el contador. */
   increment() {
     this.contador++;
   }
-
+  //**
+  // Método para decrementar el contador. */
   decrement() {
     this.contador--;
   }
-
+  //**
+  // Método para agregar el producto a la venta. */
   addSale() {
     console.log("id:",this.produtc.id);
     console.log("contador:", this.contador)

@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ProductsServiceService } from '../../services/products-service.service';
 import { CreateProductDto } from '../../interfaces/CreateProductDto';
-
+//** Componente para agregar un nuevo producto mediante un formulario. */
 @Component({
   selector: 'forms-add-product',
   standalone: true,
@@ -13,19 +13,27 @@ import { CreateProductDto } from '../../interfaces/CreateProductDto';
 })
 export class FormsAddProductComponent implements OnInit {
 
+  //** Propiedad para el formulario reactivo. */
   forms!: FormGroup;
+   //** Propiedad para almacenar el archivo seleccionado. */
   selectedFile: File | null = null;
+  //** Propiedad que indica si ocurrió un error en el proceso. */
   error: boolean = false;
+  //** Propiedad que contiene los mensajes de error. */
   errorMessage: string[] = [];
 
+  //** Inyección del servicio ProductsServiceService para su uso dentro del componente. */
   private productService: ProductsServiceService = inject(ProductsServiceService)
 
 
+  //** Constructor del componente, inyecta el FormBuilder para crear formularios reactivos. */
   constructor(private FormBuilder: FormBuilder){}
 
+  //** Método que se ejecuta al inicializar el componente, donde se crea el formulario. */
   ngOnInit() {
     this.createForm();
   }
+   //** Método para crear el formulario reactivo. */
   createForm(){
     this.forms = this.FormBuilder.group({
       Nombre: ['', [Validators.required, Validators.minLength(3)]],
@@ -36,6 +44,7 @@ export class FormsAddProductComponent implements OnInit {
     })
   }
 
+  //** Método que se ejecuta cuando se selecciona un archivo. */
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -43,6 +52,7 @@ export class FormsAddProductComponent implements OnInit {
     }
   }
 
+  //** Método que se ejecuta al enviar el formulario para crear un producto. */
   async onSubmit(){
     console.log(this.forms.value)
     console.log(this.selectedFile)
@@ -90,23 +100,28 @@ export class FormsAddProductComponent implements OnInit {
 
   }
 
+  //** Método para obtener el estado de validez del campo 'Nombre'. */
   get nombreInvalido(){
     return this.forms.get('Nombre')?.invalid && this.forms.get('Nombre')?.touched;
   }
 
 
 
+  //** Método para obtener el estado de validez del campo 'Tipo'. */
   get tipoInvalido(){
     return this.forms.get('Tipo')?.invalid && this.forms.get('Tipo')?.touched;
   }
+  //** Método para obtener el estado de validez del campo 'Precio'. */
   get precioInvalido(){
     return this.forms.get('Precio')?.invalid && this.forms.get('Precio')?.touched;
   }
 
+  //** Método para obtener el estado de validez del campo 'Stock'. */
   get stockInvalido(){
     return this.forms.get('Stock')?.invalid && this.forms.get('Stock')?.touched;
   }
 
+  //** Método para obtener el estado de validez del campo 'imageFile'. */
   get imageFileInvalido(){
     return this.forms.get('imageFile')?.invalid && this.forms.get('imageFile')?.touched;
   }
