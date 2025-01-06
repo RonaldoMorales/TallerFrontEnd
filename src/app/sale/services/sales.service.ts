@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { ResponseAPIAddProductToSale } from '../interfaces/ResponseApi_AddProductToSale';
@@ -6,35 +6,57 @@ import { AddProductDto } from '../interfaces/AddProductoDto';
 import { ConfirmSaleDto } from '../interfaces/ConfirmSaleDto';
 import { QueryObject } from '../../interfaces/QueryObject';
 import { ResponseAPIGetSalesUser } from '../interfaces/ResponseApi_GetSalesUser';
+import { AuthService } from '../../jwt/auth.service';
+import { ResponseAPIGetOnlySaleUser } from '../interfaces/ResponseApi_GetOnlySaleUser';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SalesService {
-  private baseUrl: string = "http://localhost:5134/taller-backend/Sale/";
+  private baseUrl: string = "http://localhost:5134/taller-backend/Sale";
   public errors: string[] = []
   private http = inject(HttpClient);
 
-  constructor() { }
+  constructor(private authService: AuthService) {}
 
   async CreateSale(): Promise<string>{
     try{
-    const response = await firstValueFrom(
-      this.http.post<string>(`${this.baseUrl}/CrearCarrito`, null)
-    );
-    return Promise.resolve(response);
 
-    }catch (error){
-      console.log(error);
-      let e = error as HttpErrorResponse;
-      return Promise.reject(error);
+      const token = this.authService.getToken();
+
+      if (!token) {
+          throw new Error('Token no encontrado');
+      }
+
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`
+      });
+
+      const response = await firstValueFrom(
+        this.http.post<string>(`${this.baseUrl}/CrearCarrito`, undefined, {headers})
+      );
+      return Promise.resolve(response);
+
+      }catch (error){
+        console.log(error);
+        let e = error as HttpErrorResponse;
+        return Promise.reject(error);
     }
   }
 
   async AddProductToSale(product: AddProductDto): Promise<ResponseAPIAddProductToSale>{
     try{
+      const token = this.authService.getToken();
+
+      if (!token) {
+          throw new Error('Token no encontrado');
+      }
+
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`
+      });
     const response = await firstValueFrom(
-      this.http.put<ResponseAPIAddProductToSale>(`${this.baseUrl}/AgregarProducto`, product)
+      this.http.put<ResponseAPIAddProductToSale>(`${this.baseUrl}/AgregarProducto`, product, {headers})
     );
     return Promise.resolve(response);
 
@@ -47,10 +69,19 @@ export class SalesService {
 
   async SubtractProductToSale(product: AddProductDto): Promise<ResponseAPIAddProductToSale>{
     try{
-    const response = await firstValueFrom(
-      this.http.put<ResponseAPIAddProductToSale>(`${this.baseUrl}/DisminuirProducto`, product)
-    );
-    return Promise.resolve(response);
+      const token = this.authService.getToken();
+
+      if (!token) {
+          throw new Error('Token no encontrado');
+      }
+
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`
+      });
+      const response = await firstValueFrom(
+        this.http.put<ResponseAPIAddProductToSale>(`${this.baseUrl}/DisminuirProducto`, product,{headers})
+      );
+      return Promise.resolve(response);
 
     }catch (error){
       console.log(error);
@@ -61,10 +92,20 @@ export class SalesService {
 
   async RemoveProductToSale(idProduct: number): Promise<ResponseAPIAddProductToSale>{
     try{
-    const response = await firstValueFrom(
-      this.http.put<ResponseAPIAddProductToSale>(`${this.baseUrl}/RemoverProducto`, idProduct)
-    );
-    return Promise.resolve(response);
+      const token = this.authService.getToken();
+
+      if (!token) {
+          throw new Error('Token no encontrado');
+      }
+
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`
+      });
+
+      const response = await firstValueFrom(
+        this.http.put<ResponseAPIAddProductToSale>(`${this.baseUrl}/RemoverProducto`, idProduct, {headers})
+      );
+      return Promise.resolve(response);
 
     }catch (error){
       console.log(error);
@@ -75,10 +116,20 @@ export class SalesService {
 
   async ConfirmProductToSale(info: ConfirmSaleDto): Promise<string>{
     try{
-    const response = await firstValueFrom(
-      this.http.post<string>(`${this.baseUrl}/ConfirmarVenta`, info)
-    );
-    return Promise.resolve(response);
+      const token = this.authService.getToken();
+
+      if (!token) {
+          throw new Error('Token no encontrado');
+      }
+
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`
+      });
+
+      const response = await firstValueFrom(
+        this.http.post<string>(`${this.baseUrl}/ConfirmarVenta`, info, {headers})
+      );
+      return Promise.resolve(response);
 
     }catch (error){
       console.log(error);
@@ -89,9 +140,42 @@ export class SalesService {
 
   async GetSaleUser(queryObject: QueryObject): Promise<ResponseAPIGetSalesUser>{
     try{
+      const token = this.authService.getToken();
+
+      if (!token) {
+          throw new Error('Token no encontrado');
+      }
+
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`
+      });
       const params = new HttpParams({ fromObject: { ...queryObject } });
       const response = await firstValueFrom(
-      this.http.get<ResponseAPIGetSalesUser>(`${this.baseUrl}/ConfirmarVenta`, {params})
+      this.http.get<ResponseAPIGetSalesUser>(`${this.baseUrl}/ConfirmarVenta`, {params, headers} )
+    );
+    return Promise.resolve(response);
+
+    }catch (error){
+      console.log(error);
+      let e = error as HttpErrorResponse;
+      return Promise.reject(error);
+    }
+  }
+
+  async GetOnlySaleUser(): Promise<ResponseAPIGetOnlySaleUser>{
+    try{
+      const token = this.authService.getToken();
+
+      if (!token) {
+          throw new Error('Token no encontrado');
+      }
+
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`
+      });
+
+      const response = await firstValueFrom(
+      this.http.get<ResponseAPIGetOnlySaleUser>(`${this.baseUrl}/Carrito`, { headers} )
     );
     return Promise.resolve(response);
 

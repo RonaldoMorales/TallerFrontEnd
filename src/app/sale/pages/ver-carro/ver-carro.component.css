@@ -1,0 +1,18 @@
+/* card.component.css o el archivo CSS de tu componente */
+
+.slide-in {
+  position: fixed;
+  top: 50%; /* Centrado verticalmente */
+  right: -100%; /* Empieza fuera de la pantalla */
+  transform: translateY(-50%); /* Ajuste para mantenerlo centrado exactamente */
+  height: 500px; /* Puedes ajustar el alto según lo que necesites */
+  width: 500px; /* Puedes ajustar el ancho según lo que necesites */
+  transition: right 0.5s ease;
+  background-color: white;
+  z-index: 1000; /* Asegúrate de que el componente esté por encima de otros elementos */
+  box-shadow: -4px 0px 10px rgba(0, 0, 0, 0.3); /* Sombra en el borde izquierdo */
+}
+
+.slide-in.open {
+  right: 0; /* Se desliza a la posición original */
+}
